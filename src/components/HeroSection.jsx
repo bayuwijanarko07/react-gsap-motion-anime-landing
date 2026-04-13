@@ -238,7 +238,7 @@ export default function HeroSection() {
 
       {/* Scroll Indicator */}
       <div className="hero__scroll">
-        <span className="hero__scroll-text">Scroll</span>
+        <span className="hero__scroll-text">Asd</span>
         <div className="hero__scroll-line" />
       </div>
     </section>
