@@ -1,4 +1,4 @@
-import './App.css'
+import './App.scss'
 import HeroSection from './components/HeroSection'
 
 function App() {
