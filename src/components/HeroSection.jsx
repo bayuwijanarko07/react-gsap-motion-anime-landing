@@ -1,8 +1,9 @@
 import { useRef } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-gsap.registerPlugin(useGSAP)
+gsap.registerPlugin(useGSAP, ScrollTrigger)
 
 /* Simple SVG icons as components */
 const ArrowRight = () => (
@@ -166,6 +167,20 @@ export default function HeroSection() {
       repeat: -1,
       yoyo: true,
       ease: 'sine.inOut',
+    })
+
+    /* 11. ScrollTrigger Parallax/Fade Effect */
+    gsap.to('.hero__content', {
+      y: 150,
+      opacity: 0,
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+        markers: true,
+        id: 'hero',
+      }
     })
 
   }, { scope: containerRef })
