@@ -3,8 +3,10 @@ import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import './App.scss'
 import HeroSection from './components/HeroSection'
+import Preloader from './components/Preloader'
 
 function App() {
+  const hasSeen = sessionStorage.getItem('loading-sequence-seen') === 'true';
   const containerRef = useRef(null)
 
   useGSAP(() => {
@@ -30,6 +32,7 @@ function App() {
 
   return (
     <div className="app" ref={containerRef}>
+       {!hasSeen && <Preloader />}
       <HeroSection />
       
       {/* Dummy Sections for debugging scroll */}

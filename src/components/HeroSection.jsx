@@ -188,9 +188,6 @@ export default function HeroSection() {
   return (
     <section className="hero" ref={containerRef} id="hero">
       {/* Background Effects */}
-      <div className="hero__orb hero__orb--purple" />
-      <div className="hero__orb hero__orb--blue" />
-      <div className="hero__orb hero__orb--cyan" />
       <div className="hero__grid" />
 
       {/* Floating Particles */}
