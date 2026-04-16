@@ -5,10 +5,9 @@ import './Preloader.scss';
 import { Canvas } from '@react-three/fiber';
 import { CloudScene } from './CloudBackground';
 
-export default function Preloader({ onFinish }) {
+export default function Preloader({ onFinish, onEnter }) {
   const [isReady, setIsReady] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
-  const [isEntering, setIsEntering] = useState(false);
 
   const counterRef = useRef(null);
   const containerRef = useRef(null);
@@ -54,8 +53,8 @@ export default function Preloader({ onFinish }) {
     // 🔥 valid user interaction → audio pasti jalan
     onFinish && onFinish();
 
-    // Trigger fly-through animation di CloudScene
-    setIsEntering(true);
+    // Trigger fly-through animation di App (global background)
+    onEnter && onEnter();
 
     // Fade out tombol enter
     gsap.to('.preloader__enter', {
@@ -82,21 +81,10 @@ export default function Preloader({ onFinish }) {
   return (
     <div className="preloader" ref={containerRef}>
 
-      {/* Cloud Background Layer */}
-      <div style={{ position: 'absolute', inset: 0, zIndex: -2, background: 'linear-gradient(to bottom, #8fb8d8, #ebf5f9)' }}>
-        <Canvas camera={{ position: [0, 0, 15], fov: 60 }}>
-          <fog attach="fog" args={['#ebf5f9', 5, 40]} />
-          <CloudScene isEntering={isEntering} />
-        </Canvas>
-      </div>
-
-      {/* Cover Pintu (Top & Bottom) buat Quadplex effect */}
+      {/* Background Cloud sekarang di-handle oleh root App agar persistent */}
+      
       <div className="preloader__cover top" ref={coverTopRef}></div>
       <div className="preloader__cover bottom" ref={coverBottomRef}></div>
-
-      <div className="preloader__percentage" ref={counterRef} style={{ zIndex: 10 }}>
-        0%
-      </div>
 
       {isReady && (
         <div className="preloader__enter" onClick={handleEnter} style={{ zIndex: 10 }}>
