@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import music from './assets/audios/a-well-earned-celebration.mp3'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -13,6 +13,7 @@ gsap.registerPlugin(ScrollTrigger)
 function App() {
   const containerRef = useRef(null)
   const audioRef = useRef(null)
+  const [isEntering, setIsEntering] = useState(false)
 
   const playMusic = () => {
     const audio = audioRef.current
@@ -60,7 +61,12 @@ function App() {
   return (
     <div className="app" ref={containerRef}>
 
-      <Preloader onFinish={playMusic} />
+      <CloudBackground isEntering={isEntering} />
+
+      <Preloader
+        onFinish={playMusic}
+        onEnter={() => setIsEntering(true)}
+      />
 
       <HeroSection />
 

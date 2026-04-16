@@ -8,20 +8,20 @@ export function CloudScene({ isEntering }) {
   const { camera } = useThree()
 
   useFrame((state) => {
+    // Gerakan lambat konstan untuk seluruh grup (agar terasa hidup)
+    if (groupRef.current) {
+      groupRef.current.position.z += 0.005
+
+      // Reset posisi jika sudah terlalu dekat agar terasa infinite
+      if (groupRef.current.position.z > 20) {
+        groupRef.current.position.z = -40
+      }
+    }
+
     if (isEntering) {
       // Fly-through menembus awan saat enter
       camera.position.z = THREE.MathUtils.lerp(camera.position.z, -40, 0.03)
       camera.position.y = THREE.MathUtils.lerp(camera.position.y, 5, 0.03)
-    } else {
-      // Continuous slow movement forward
-      if (groupRef.current) {
-        groupRef.current.position.z += 0.005
-
-        // Reset posisi jika sudah terlalu dekat agar terasa infinite
-        if (groupRef.current.position.z > 20) {
-          groupRef.current.position.z = -40
-        }
-      }
     }
   })
 
@@ -46,7 +46,7 @@ export function CloudScene({ isEntering }) {
   )
 }
 
-export default function CloudBackground() {
+export default function CloudBackground({ isEntering }) {
   return (
     <div style={{
       position: 'fixed',
@@ -60,9 +60,10 @@ export default function CloudBackground() {
       overflow: 'hidden'
     }}>
       <Canvas camera={{ position: [0, 0, 15], fov: 60 }} style={{ display: 'block' }}>
-        <fog attach="fog" args={['#ebf5f9', 10, 40]} />
-        <CloudScene />
+        <fog attach="fog" args={['#ebf5f9', 5, 40]} />
+        <CloudScene isEntering={isEntering} />
       </Canvas>
     </div>
   )
 }
+
